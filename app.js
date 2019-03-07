@@ -17,8 +17,7 @@ index.db.authenticate().then(() => {
 });
 
 const init = async () => {
-  await index.Page.sync();
-  await index.User.sync();
+  await index.db.sync({ force: true });
 
   const PORT = 1337;
 
