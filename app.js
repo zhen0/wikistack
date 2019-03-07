@@ -15,8 +15,15 @@ app.get("/", (req, res, next) => {
 index.db.authenticate().then(() => {
   console.log("connected to the database");
 });
-const PORT = 1337;
 
-app.listen(PORT, () => {
-  console.log(`App listening in port ${PORT}`);
-});
+const init = async () => {
+  await index.Page.sync();
+  await index.User.sync();
+
+  const PORT = 1337;
+
+  app.listen(PORT, () => {
+    console.log(`App listening in port ${PORT}`);
+  });
+};
+init();
