@@ -5,6 +5,7 @@ const layout = require("./views/layout");
 const index = require("./models/index");
 const wikiRoutes = require("./routes/wiki");
 const userRoutes = require("./routes/user");
+const main = require("./views/main");
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
@@ -13,8 +14,11 @@ app.use("/wiki", wikiRoutes);
 app.use("/user", userRoutes);
 
 app.use(express.static("static"));
-app.get("/", (req, res, next) => {
-  res.send(layout("hello world"));
+
+app.get("/", async (req, res, next) => {
+  const pages = await index.Page.findAll();
+  console.log("pages", pages);
+  res.send(main(pages));
 });
 
 index.db.authenticate().then(() => {
